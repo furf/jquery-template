@@ -1,6 +1,6 @@
 jQuery.template = function(str, obj) {
   var replace = 'replace', split = 'split', join = 'join',
-      tmpl = new Function ("__", "__.push('" +
+      render = new Function ("__", "__.push('" +
         str[replace](/[\r\t\n]/g, " ")
            [split]("<%")[join]("\t")
            [replace](/((^|%>)[^\t]*)'/g, "$1\r")
@@ -9,10 +9,10 @@ jQuery.template = function(str, obj) {
            [split]("%>")[join](";__.push('")
            [split]("\r")[join]("\\'")
            + "');return __.join('');");
-  function render (obj) {
-    return jQuery(tmpl.call(obj, []));
+  function proxy (obj) {
+    return jQuery(render.call(obj, []));
   }
-  return obj ? render(obj) : render;
+  return obj ? proxy(obj) : proxy;
 };
 
 jQuery.fn.template = function(obj) {
