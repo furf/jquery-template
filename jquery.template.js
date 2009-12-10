@@ -7,8 +7,8 @@ jQuery.template = function(str, obj) {
            [replace](/\t=(.*?)%>/g, "',$1,'")
            [split]("\t")[join]("');")
            [split]("%>")[join](";__.push('")
-           [split]("\r")[join]("\\'")
-           + "');return __.join('');");
+           [split]("\r")[join]("\\'") +
+           "');return __.join('');");
   function proxy (obj) {
     return jQuery(render.call(obj, []));
   }
