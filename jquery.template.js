@@ -16,5 +16,5 @@ jQuery.template = function(str, obj) {
 };
 
 jQuery.fn.template = function(obj) {
-  return $.template(this.html() || '', obj);
+  return jQuery.template(this.html() || '', obj);
 };
