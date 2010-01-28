@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8"/>
+    
+    <title>jQuery.template</title>
+
+    <!-- Stylesheets -->
+    <style type="text/css" media="screen">
+      textarea.template { display:none; }
+    </style>
+    
+    <!-- JavaScripts -->
+    <script src="http://assets.dev/js/jquery/jquery-1.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery.template.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(function () {
+        
+        
+        var text = $('#tpl').text(),
+            obj = {
+              headline: 'hello, world',
+              body: 'the quick brown fox jumps over the lazy dog',
+              fruit: ['apple', 'banana', 'cherry']
+            },
+            tpl,
+            html;
+
+
+        /**
+         * Using $.template to create a reusable template engine
+         */
+         
+        tpl = $.template(text);
+        
+        // Render as a jQuery instance
+        tpl(obj).appendTo('body');
+
+        // Render as HTML
+        html = tpl(obj, true);
+        console.log(html);
+
+        
+        
+        /**
+         * Using $.template to render one object
+         */
+         
+        // Render as a jQuery instance
+        $.template(text, obj).appendTo('body');
+
+        // Render as HTML
+        html = $.template(text, obj, true);
+        console.log(html);
+        
+        
+        
+        /**
+         * Using $.fn.template to create a reusable template engine
+         */
+
+        tpl = $('#tpl').template();
+        
+        // Render as a jQuery instance
+        tpl(obj).appendTo('body');
+
+        // Render as HTML
+        html = tpl(obj, true);
+        console.log(html);
+        
+
+        /**
+         * Using $.fn.template to render one object
+         */
+
+        // Render as a jQuery instance
+        $('#tpl').template(obj).appendTo('body');
+
+        // Render as HTML
+        html = $('#tpl').template(obj, true);
+        console.log(html);
+        
+
+        /**
+         * Using a <textarea>
+         */
+        $('#tpl2').template(obj).appendTo('body');
+
+      });
+      
+    </script>
+    
+  </head>
+  <body>
+
+    <script id="tpl" type="text/html" charset="utf-8">
+      <h1>&raquo; <%= this.headline %></h1>
+      <article><%= this.body %></article>
+      <aside>
+        <ul>
+        <% $.each(this.fruit, function (i, fruit) { %>
+          <li><%= fruit %></li>
+        <% }); %>
+        </ul>
+      </aside>
+    </script>
+
+    <textarea class="template" id="tpl2">
+      <h1>&raquo; <%= this.headline %></h1>
+      <article><%= this.body %></article>
+      <aside>
+        <ul>
+        <% $.each(this.fruit, function (i, fruit) { %>
+          <li><%= fruit %></li>
+        <% }); %>
+        </ul>
+      </aside>
+    </textarea>
+    
+  </body>
+</html>

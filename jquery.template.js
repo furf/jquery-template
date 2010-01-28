@@ -1,4 +1,4 @@
-jQuery.template = function(str, obj) {
+jQuery.template = function(str, obj, raw) {
   var replace = 'replace', split = 'split', join = 'join',
       render = new Function ("__", "__.push('" +
         str[replace](/[\r\t\n]/g, " ")
@@ -9,12 +9,13 @@ jQuery.template = function(str, obj) {
            [split]("%>")[join](";__.push('")
            [split]("\r")[join]("\\'") +
            "');return __.join('');");
-  function proxy (obj) {
-    return jQuery(render.call(obj, []));
+  function proxy (obj, raw) {
+    var html = render.call(obj, []);
+    return raw ? html : jQuery(html);
   }
-  return obj ? proxy(obj) : proxy;
+  return obj ? proxy(obj, raw) : proxy;
 };
 
-jQuery.fn.template = function(obj) {
-  return jQuery.template(this.html() || '', obj);
+jQuery.fn.template = function(obj, raw) {
+  return jQuery.template(this.text() || '', obj, raw);
 };
