@@ -16,6 +16,7 @@
     <script src="jquery.template.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
       $(function () {
+        console.profile('dave');
         
         
         var text = $('#tpl').text(),
@@ -39,7 +40,7 @@
 
         // Render as HTML
         html = tpl(obj, true);
-        console.log(html);
+        // console.log(html);
 
         
         
@@ -52,7 +53,7 @@
 
         // Render as HTML
         html = $.template(text, obj, true);
-        console.log(html);
+        // console.log(html);
         
         
         
@@ -67,7 +68,7 @@
 
         // Render as HTML
         html = tpl(obj, true);
-        console.log(html);
+        // console.log(html);
         
 
         /**
@@ -79,7 +80,7 @@
 
         // Render as HTML
         html = $('#tpl').template(obj, true);
-        console.log(html);
+        // console.log(html);
         
 
         /**
@@ -87,14 +88,62 @@
          */
         $('#tpl2').template(obj).appendTo('body');
 
-      });
-      
+        console.profileEnd('dave');
+      });      
     </script>
     
   </head>
   <body>
 
     <script id="tpl" type="text/html" charset="utf-8">
+    <h1>&raquo; <%= this.headline %></h1>
+    <article><%= this.body %></article>
+    <aside>
+      <ul>
+      <% $.each(this.fruit, function (i, fruit) { %>
+        <li><%= fruit %></li>
+      <% }); %>
+      </ul>
+    </aside>
+    <h1>&raquo; <%= this.headline %></h1>
+    <article><%= this.body %></article>
+    <aside>
+      <ul>
+      <% $.each(this.fruit, function (i, fruit) { %>
+        <li><%= fruit %></li>
+      <% }); %>
+      </ul>
+    </aside>
+    <h1>&raquo; <%= this.headline %></h1>
+    <article><%= this.body %></article>
+    <aside>
+      <ul>
+      <% $.each(this.fruit, function (i, fruit) { %>
+        <li><%= fruit %></li>
+      <% }); %>
+      </ul>
+    </aside>
+    <h1>&raquo; <%= this.headline %></h1>
+    <article><%= this.body %></article>
+    <aside>
+      <ul>
+      <% $.each(this.fruit, function (i, fruit) { %>
+        <li><%= fruit %></li>
+      <% }); %>
+      </ul>
+    </aside>
+    <h1>&raquo; <%= this.headline %></h1>
+    <article><%= this.body %></article>
+    <aside>
+      <ul>
+      <% $.each(this.fruit, function (i, fruit) { %>
+        <li><%= fruit %></li>
+      <% }); %>
+      </ul>
+    </aside>
+    </script>
+
+    <textarea class="template" id="tpl2">
       <h1>&raquo; <%= this.headline %></h1>
       <article><%= this.body %></article>
       <aside>
@@ -104,9 +153,33 @@
         <% }); %>
         </ul>
       </aside>
-    </script>
-
-    <textarea class="template" id="tpl2">
+      <h1>&raquo; <%= this.headline %></h1>
+      <article><%= this.body %></article>
+      <aside>
+        <ul>
+        <% $.each(this.fruit, function (i, fruit) { %>
+          <li><%= fruit %></li>
+        <% }); %>
+        </ul>
+      </aside>
+      <h1>&raquo; <%= this.headline %></h1>
+      <article><%= this.body %></article>
+      <aside>
+        <ul>
+        <% $.each(this.fruit, function (i, fruit) { %>
+          <li><%= fruit %></li>
+        <% }); %>
+        </ul>
+      </aside>
+      <h1>&raquo; <%= this.headline %></h1>
+      <article><%= this.body %></article>
+      <aside>
+        <ul>
+        <% $.each(this.fruit, function (i, fruit) { %>
+          <li><%= fruit %></li>
+        <% }); %>
+        </ul>
+      </aside>
       <h1>&raquo; <%= this.headline %></h1>
       <article><%= this.body %></article>
       <aside>

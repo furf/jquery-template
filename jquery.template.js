@@ -1,4 +1,4 @@
-jQuery.template = function(str, obj, raw) {
+jQuery.template = function (str, obj, raw) {
   var replace = 'replace', split = 'split', join = 'join',
       render = new Function ("var __=[];__.push('" +
         str[replace](/[\r\t\n]/g, " ")
@@ -16,6 +16,6 @@ jQuery.template = function(str, obj, raw) {
   return obj ? proxy(obj, raw) : proxy;
 };
 
-jQuery.fn.template = function(obj, raw) {
+jQuery.fn.template = function (obj, raw) {
   return jQuery.template(this.text() || '', obj, raw);
 };
