@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8"/>
+    
+    <title>untitled</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="" type="text/css">
+    <style type="text/css" media="screen">
+      
+    </style>
+    
+    <!-- JavaScripts -->
+    <script src="http://assets.dev/js/jquery/jquery-1.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://assets.dev/js/jquery/plugins/template/jquery.template.js" type="text/javascript" charset="utf-8"></script>
+    
+  </head>
+  <body>
+    
+    <div id="content"></div>
+    
+    <script type="text/html" id="subtemplate">
+      
+      <% function doSomething (job) { %>
+        I worked at <%= job.name %>.
+      <% } %>
+      
+      <h1><%= this.name %></h1>
+      <ul>
+        <% $.each(this.jobs, function (i, job) { %>
+          <li>
+            <% doSomething(job) %>
+          </li>
+        <% }); %>
+      </ul>
+
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+    $('#subtemplate').template({
+      name: 'dave',
+      jobs: [
+        {name:'Live Nation'},
+        {name:'Time, Inc.'},
+        {name:'MLB.com'}
+      ]
+    }).appendTo('#content');
+    </script>
+  </body>
+</html>
