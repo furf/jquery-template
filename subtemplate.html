@@ -18,35 +18,56 @@
     
   </head>
   <body>
-    
-    <div id="content"></div>
+        
+    <!-- Applying this template... -->
     
     <script type="text/html" id="subtemplate">
       
+      // functions act as subtemplates
       <% function doSomething (job) { %>
         I worked at <%= job.name %>.
       <% } %>
       
       <h1><%= this.name %></h1>
+      
       <ul>
         <% $.each(this.jobs, function (i, job) { %>
-          <li>
-            <% doSomething(job) %>
-          </li>
+          <li><% doSomething(job) %></li>
         <% }); %>
       </ul>
 
     </script>
 
+    <!-- ...to this data... -->
+
     <script type="text/javascript" charset="utf-8">
-    $('#subtemplate').template({
-      name: 'dave',
-      jobs: [
-        {name:'Live Nation'},
-        {name:'Time, Inc.'},
-        {name:'MLB.com'}
-      ]
-    }).appendTo('#content');
+    $(function () {
+      
+      $('#subtemplate').template({
+        name: 'dave',
+        jobs: [
+          {name:'Live Nation'},
+          {name:'Time, Inc.'},
+          {name:'MLB.com'}
+        ]
+      }).appendTo('#content');
+    
+    });
     </script>
+    
+    <!-- ...renders this markup... -->
+    
+    <h1>dave</h1>
+
+    <ul>
+      <li>I worked at Live Nation.</li>
+      <li>I worked at Time, Inc..</li>
+      <li>I worked at MLB.com.</li>
+    </ul>
+    
+    <!-- ...into this element. -->
+    
+    <div id="content"></div>
+    
   </body>
 </html>
