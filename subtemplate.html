@@ -55,6 +55,31 @@
     });
     </script>
     
+    <!-- ...creates this function (edited for clarity)... -->
+    
+    <script type="text/javascript" charset="utf-8">
+    function () {
+
+      var out = [];
+
+      function doSomething (job) {
+        out.push(' I worked at ', job.name ,'. ');
+      }
+
+      out.push(' <h1>', this.name ,'</h1> <ul> ');
+
+      $.each(this.jobs, function (i, job) {
+        out.push(' <li> ');
+        doSomething(job);
+        out.push(' </li> ');
+      });
+
+      out.push(' </ul> ');
+
+      return out.join('');
+    }
+    </script>
+    
     <!-- ...renders this markup... -->
     
     <h1>dave</h1>
