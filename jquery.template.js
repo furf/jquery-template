@@ -1,3 +1,11 @@
+/**
+ * jQuery.template
+ * A micro-templating plugin for jQuery by David Furfero <http://furf.com/>
+ * http://github.com/furf/jquery-template
+ * Adapted from an original work by John Resig <http://ejohn.org/>
+ * http://ejohn.org/blog/javascript-micro-templating/
+ * MIT Licensed
+ */
 jQuery.template = function (str, obj, raw) {
   var replace = 'replace', split = 'split', join = 'join',
       render = new Function ("var __=[];__.push('" +
