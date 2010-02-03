@@ -79,41 +79,52 @@
     });
     </script>
     
-    <!-- ...creates this function (edited for clarity)...
+    <!-- ...creates this function (edited for clarity)... -->
     
-    <script type="text/javascript" charset="utf-8">
-    function () {
+    <script type="text/html" charset="utf-8">
+    function anonymous() {
     
       var out = [];
     
-      function doSomething (job) {
-        out.push(' I worked at ', job.name ,'. ');
+      out.push(" <!-- HTML comments are inserted into the DOM --> ");
+      out.push(" <h1>", this.name, "</h1> ");
+    
+      function renderJob(job) {
+        var verb = job.end !== "present" ? "worked" : "currently work";
+        out.push(" I ", verb, " at <strong>", job.company, "</strong> as a <em>", job.position, "</em> ");
+        renderDateRange(job.start, job.end);
+    
+        function renderDateRange(start, end) { out.push(" ");
+          out.push(" from ", start, " ", end === "present" ? "" : "to " + end, ". ");
+        }
       }
     
-      out.push(' <h1>', this.name ,'</h1> <ul> ');
+      out.push(" <ul> ");
     
-      $.each(this.jobs, function (i, job) {
-        out.push(' <li> ');
-        doSomething(job);
-        out.push(' </li> ');
+      jQuery.each(this.jobs, function (i, job) {
+        out.push(" <li>");
+        renderJob(job);
+        out.push("</li> ");
       });
     
-      out.push(' </ul> ');
+      out.push(" </ul> ");
     
-      return out.join('');
+      return out.join("");
     }
     </script>
     
-    ...renders this markup... 
+    <!-- ...renders this markup... 
 
-    <h1>dave</h1>
-
+    &lt;!-- HTML comments are inserted into the DOM --&gt;
+    <h1>Dave Furfero</h1>
     <ul>
-      <li>I worked at Live Nation.</li>
-      <li>I worked at Time, Inc..</li>
-      <li>I worked at MLB.com.</li>
+      <li>I currently work at <strong>MLB.com</strong> as a <em>User Interface Engineer</em> from March 2009 .</li>
+      <li>I worked at <strong>Time, Inc.</strong> as a <em>Front-end Developer</em from July 2008 to March 2009.</li>
+      <li>I worked at <strong>Live Nation</strong> as a <em>Director of Product Development</em> from February 2008 to July 2008.</li>
+      <li>I worked at <strong>Live Nation</strong> as a <em>Senior Product Developer</em> from August 2007 to February 2008.</li>
+      <li>I worked at <strong>Owl Music Search</strong> as a <em>Interface Design Director</em> from April 2006 to June 2007.</li>
     </ul>
-    
+
     ...into this element. -->
     
     <div id="content"></div>
