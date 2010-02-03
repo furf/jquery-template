@@ -4,15 +4,8 @@
 
     <meta charset="utf-8"/>
     
-    <title>untitled</title>
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="" type="text/css">
-    <style type="text/css" media="screen">
-      
-    </style>
+    <title>jQuery.template</title>
     
-    <!-- JavaScripts -->
     <script src="http://assets.dev/js/jquery/jquery-1.4.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="http://assets.dev/js/jquery/plugins/template/jquery.template.js" type="text/javascript" charset="utf-8"></script>
     
@@ -22,17 +15,46 @@
     <!-- Applying this template... -->
     
     <script type="text/html" id="subtemplate">
+
+      <% /* this is proper markup for a template comment */ %>
+      <!-- HTML comments are inserted into the DOM -->
       
-      // functions act as subtemplates
-      <% function doSomething (job) { %>
-        I worked at <%= job.name %>.
-      <% } %>
-      
+      <% /* argument passed to $.template is accessed as "this" */ %>
       <h1><%= this.name %></h1>
-      
+
+      <% /* functions act as subtemplates */ %>
+      <%
+         /** NOTE!
+          * subtemplates can be declared anywhere inside a template
+          * if you use:
+          *   function subtemplate () {} 
+          * but not if you use:
+          *   var subtemplate = function () {};
+          */
+      %>
+      <% function renderJob (job) { %>
+
+        <% /* variables declared in a subtemplate are local to the subtemplate */ %>
+        <% var verb = (job.end !== 'present') ? 'worked' : 'currently work'; %>
+
+        I <%= verb %> at <strong><%= job.company %></strong> as a <em><%= job.position %></em> <% renderDateRange(job.start, job.end) %>
+
+        <% /* subtemplates can be nested (nested subtemplates are private) */ %>
+        <% function renderDateRange (start, end) { %>
+
+          <% /* you can print with ternaries */ %>
+          from <%= start %> <%= end === 'present' ? '' : 'to ' + end %>.
+
+        <% } %>        
+      <% } %>
+
       <ul>
-        <% $.each(this.jobs, function (i, job) { %>
-          <li><% doSomething(job) %></li>
+        <% /* global variables are accessible inside template (ex. jQuery) */ %>
+        <% jQuery.each(this.jobs, function (i, job) { %>
+
+          <% /* execute (<% ... %>), don't print (<%= ... %>), subtemplates */ %>
+          <li><% renderJob(job) %></li>
+
         <% }); %>
       </ul>
 
@@ -44,44 +66,46 @@
     $(function () {
       
       $('#subtemplate').template({
-        name: 'dave',
+        name: 'Dave Furfero',
         jobs: [
-          {name:'Live Nation'},
-          {name:'Time, Inc.'},
-          {name:'MLB.com'}
+          {company:'MLB.com', position:'User Interface Engineer', start:'March 2009', end:'present'},
+          {company:'Time, Inc.', position:'Front-end Developer', start:'July 2008', end:'March 2009'},
+          {company:'Live Nation', position:'Director of Product Development', start:'February 2008', end:'July 2008'},
+          {company:'Live Nation', position:'Senior Product Developer', start:'August 2007', end:'February 2008'},
+          {company:'Owl Music Search', position:'Interface Design Director', start:'April 2006', end:'June 2007'}
         ]
       }).appendTo('#content');
     
     });
     </script>
     
-    <!-- ...creates this function (edited for clarity)... -->
+    <!-- ...creates this function (edited for clarity)...
     
     <script type="text/javascript" charset="utf-8">
     function () {
-
+    
       var out = [];
-
+    
       function doSomething (job) {
         out.push(' I worked at ', job.name ,'. ');
       }
-
+    
       out.push(' <h1>', this.name ,'</h1> <ul> ');
-
+    
       $.each(this.jobs, function (i, job) {
         out.push(' <li> ');
         doSomething(job);
         out.push(' </li> ');
       });
-
+    
       out.push(' </ul> ');
-
+    
       return out.join('');
     }
     </script>
     
-    <!-- ...renders this markup... -->
-    
+    ...renders this markup... 
+
     <h1>dave</h1>
 
     <ul>
@@ -90,7 +114,7 @@
       <li>I worked at MLB.com.</li>
     </ul>
     
-    <!-- ...into this element. -->
+    ...into this element. -->
     
     <div id="content"></div>
     
