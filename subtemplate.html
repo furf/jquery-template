@@ -16,14 +16,14 @@
     
     <script type="text/html" id="subtemplate">
 
-      <% /* this is proper markup for a template comment */ %>
+      {% /* this is proper markup for a template comment */ %}
       <!-- HTML comments are inserted into the DOM -->
       
-      <% /* argument passed to $.template is accessed as "this" */ %>
-      <h1><%= this.name %></h1>
+      {% /* argument passed to $.template is accessed as "this" */ %}
+      <h1>{%= this.name %}</h1>
 
-      <% /* functions act as subtemplates */ %>
-      <%
+      {% /* functions act as subtemplates */ %}
+      {%
          /** NOTE!
           * subtemplates can be declared anywhere inside a template
           * if you use:
@@ -31,31 +31,31 @@
           * but not if you use:
           *   var subtemplate = function () {};
           */
-      %>
-      <% function renderJob (job) { %>
+      %}
+      {% function renderJob (job) { %}
 
-        <% /* variables declared in a subtemplate are local to the subtemplate */ %>
-        <% var verb = (job.end !== 'present') ? 'worked' : 'currently work'; %>
+        {% /* variables declared in a subtemplate are local to the subtemplate */ %}
+        {% var verb = (job.end !== 'present') ? 'worked' : 'currently work'; %}
 
-        I <%= verb %> at <strong><%= job.company %></strong> as a <em><%= job.position %></em> <% renderDateRange(job.start, job.end) %>
+        I {%= verb %} at <strong>{%= job.company %}</strong> as a <em>{%= job.position %}</em> {% renderDateRange(job.start, job.end) %}
 
-        <% /* subtemplates can be nested (nested subtemplates are private) */ %>
-        <% function renderDateRange (start, end) { %>
+        {% /* subtemplates can be nested (nested subtemplates are private) */ %}
+        {% function renderDateRange (start, end) { %}
 
-          <% /* you can print with ternaries */ %>
-          from <%= start %> <%= end === 'present' ? '' : 'to ' + end %>.
+          {% /* you can print with ternaries */ %}
+          from {%= start %} {%= end === 'present' ? '' : 'to ' + end %}.
 
-        <% } %>        
-      <% } %>
+        {% } %}        
+      {% } %}
 
       <ul>
-        <% /* global variables are accessible inside template (ex. jQuery) */ %>
-        <% jQuery.each(this.jobs, function (i, job) { %>
+        {% /* global variables are accessible inside template (ex. jQuery) */ %}
+        {% jQuery.each(this.jobs, function (i, job) { %}
 
-          <% /* execute (<% ... %>), don't print (<%= ... %>), subtemplates */ %>
-          <li><% renderJob(job) %></li>
+          {% /* execute ({% ... %}), don't print ({%= ... %}), subtemplates */ %}
+          <li>{% renderJob(job) %}</li>
 
-        <% }); %>
+        {% }); %}
       </ul>
 
     </script>
@@ -65,7 +65,9 @@
     <script type="text/javascript" charset="utf-8">
     $(function () {
       
-      $('#subtemplate').template({
+      var tpl = $('#subtemplate').template();
+
+      tpl({
         name: 'Dave Furfero',
         jobs: [
           {company:'MLB.com', position:'User Interface Engineer', start:'March 2009', end:'present'},
@@ -82,7 +84,7 @@
     <!-- ...creates this function (edited for clarity)... -->
     
     <script type="text/javascript" charset="utf-8">
-    function () {
+    (function anonymous () {
     
       var out = [];
     
@@ -110,7 +112,7 @@
       out.push(" </ul> ");
     
       return out.join("");
-    }
+    })
     </script>
     
     <!-- ...renders this markup... -->

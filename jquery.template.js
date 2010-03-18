@@ -8,9 +8,7 @@
  */
 jQuery.template = function(str, obj, raw) {
 
-  var replace   = 'replace',
-      split     = 'split',
-      join      = 'join',
+  var replace = 'replace', split = 'split', join = 'join',
 
       // Convert template to JavaScript source code
       source = "var __=[];__.push('" +

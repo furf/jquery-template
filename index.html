@@ -95,25 +95,25 @@
   <body>
 
     <script id="tpl" type="text/html" charset="utf-8">
-      <h1>&raquo; <%= this.headline %></h1>
-      <article><%= this.body %></article>
+      <h1>&raquo; {%= this.headline %}</h1>
+      <article>{%= this.body %}</article>
       <aside>
         <ul>
-        <% $.each(this.fruit, function (i, fruit) { %>
-          <li><%= fruit %></li>
-        <% }); %>
+        {% $.each(this.fruit, function (i, fruit) { %}
+          <li>{%= fruit %}</li>
+        {% }); %}
         </ul>
       </aside>
     </script>
 
     <textarea class="template" id="tpl2">
-      <h1>&raquo; <%= this.headline %></h1>
-      <article><%= this.body %></article>
+      <h1>&raquo; {%= this.headline %}</h1>
+      <article>{%= this.body %}</article>
       <aside>
         <ul>
-        <% $.each(this.fruit, function (i, fruit) { %>
-          <li><%= fruit %></li>
-        <% }); %>
+        {% $.each(this.fruit, function (i, fruit) { %}
+          <li>{%= fruit %}</li>
+        {% }); %}
         </ul>
       </aside>
     </textarea>
