@@ -23,8 +23,27 @@
     <div id="output"></div>
     
     <script type="text/javascript" charset="utf-8">
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {name:'dave'}).appendTo('#output');
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {name:'furf'}).appendTo('#output');
+
+    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {
+      name: 'Dave Furfero',
+      jobs: [
+        {company:'MLB.com', position:'User Interface Engineer', start:'March 2009', end:'present'},
+        {company:'Time, Inc.', position:'Front-end Developer', start:'July 2008', end:'March 2009'},
+        {company:'Live Nation', position:'Director of Product Development', start:'February 2008', end:'July 2008'},
+        {company:'Live Nation', position:'Senior Product Developer', start:'August 2007', end:'February 2008'},
+        {company:'Owl Music Search', position:'Interface Design Director', start:'April 2006', end:'June 2007'}
+      ]
+    }).appendTo('#output');
+    
+
+    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {
+      name: 'Henry Chan',
+      jobs: [
+        {company:'Time, Inc.', position:'Front-end Developer', start:'July 2008', end:'March 2009'},
+        {company:'Live Nation', position:'Junior Product Developer', start:'August 2007', end:'February 2008'}
+      ]
+    }).appendTo('#output');
+
     </script>
     
   </body>

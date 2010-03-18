@@ -8,7 +8,7 @@
  */
 (function (document, $) {
 
-  var cache = {},
+  var templates = {},
 
       // Splits leading text fragment, DOM elements, trailing text fragments
       quickExpr = /^([^<]*)(<[\w\W]+>)([^>]*)$/,
@@ -31,9 +31,9 @@
     /**
      * Use cached template
      */
-    if (cache[str]) {
-
-      proxy = cache[str];
+    if (templates[str]) {
+      
+      proxy = templates[str];
 
     /**
      * Load Ajax template
@@ -49,7 +49,7 @@
           proxy = $.template(false, response);
 
           if (cache) {
-            cache[str] = proxy;
+            templates[str] = proxy;
           }
         }
       });
@@ -58,7 +58,7 @@
      * Create new template
      */
     } else {
-
+      
       // Convert template to JavaScript source code
       source = "var __=[];__.push('" +
         str[replace](/[\r\t\n]/g, " ")
@@ -144,7 +144,7 @@
 
       // Cache proxy for faster retrieval on subsequent calls
       if (cache) {
-        cache[str] = proxy;
+        templates[str] = proxy;
       }
     }
 
