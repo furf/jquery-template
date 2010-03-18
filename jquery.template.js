@@ -22,7 +22,7 @@ jQuery.template = function(str, obj, raw) {
            "');return __.join('');",
       
       // Create the render function from generated source
-      render = new Function (source);
+      render = new Function(source);
 
   /**
    * Using a proxy function helps us avoid use of the "with" keyword as in the
