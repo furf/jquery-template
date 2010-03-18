@@ -13,7 +13,7 @@
     </style>
     
     <!-- JavaScripts -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="jquery.template-ajax.js" type="text/javascript" charset="utf-8"></script>
     
     
@@ -24,7 +24,11 @@
     
     <script type="text/javascript" charset="utf-8">
 
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {
+    var s;
+    
+    var elem = $('#output');
+    
+    var dave = {
       name: 'Dave Furfero',
       jobs: [
         {company:'MLB.com', position:'User Interface Engineer', start:'March 2009', end:'present'},
@@ -33,17 +37,44 @@
         {company:'Live Nation', position:'Senior Product Developer', start:'August 2007', end:'February 2008'},
         {company:'Owl Music Search', position:'Interface Design Director', start:'April 2006', end:'June 2007'}
       ]
-    }).appendTo('#output');
+    };
     
-
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {
+    var henry = {
       name: 'Henry Chan',
       jobs: [
         {company:'Time, Inc.', position:'Front-end Developer', start:'July 2008', end:'March 2009'},
         {company:'Live Nation', position:'Junior Product Developer', start:'August 2007', end:'February 2008'}
       ]
-    }).appendTo('#output');
+    };
 
+    // dave
+    s = new Date();
+    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', dave).appendTo(elem);
+
+    elem.append('<p>' + (new Date() - s) + 'ms</p>');
+    elem.append('<hr/>');
+
+    // henry
+    s = new Date();
+    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', henry).appendTo(elem);
+
+    elem.append('<p>' + (new Date() - s) + 'ms</p>');
+    elem.append('<hr/>');
+
+    // dave & henry
+    s = new Date();
+    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', [dave, henry]).appendTo(elem);
+
+    elem.append('<p>' + (new Date() - s) + 'ms</p>');
+    elem.append('<hr/>');
+    
+    // dave & henry (raw)
+    s = new Date();
+    var html = $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', [dave, henry], true);
+    elem.append(html);
+
+    elem.append('<p>' + (new Date() - s) + 'ms</p>');
+    elem.append('<hr/>');
     </script>
     
   </body>

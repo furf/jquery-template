@@ -148,8 +148,14 @@
       }
     }
 
-    // Return template engine or rendered HTML if an object is specified
-    return obj ? proxy(obj, raw) : proxy;
+    /**
+     * Return template engine or rendered HTML if an object is specified. If
+     * the object is an array iterate and return concatenated string (raw) or
+     * jQuery object containing all rendered objects.
+     */     
+    return obj ? $.isArray(obj) ? raw ? $.map(obj, function (obj) {
+      return proxy(obj, raw);
+    }).join('') : $($.map(obj, proxy)) : proxy(obj, raw) : proxy;
   };
 
   /**
