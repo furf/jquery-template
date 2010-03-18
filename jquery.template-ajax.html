@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8"/>
+    
+    <title>untitled</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="" type="text/css">
+    <style type="text/css" media="screen">
+      
+    </style>
+    
+    <!-- JavaScripts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery.template-ajax.js" type="text/javascript" charset="utf-8"></script>
+    
+    
+  </head>
+  <body>
+
+    <div id="output"></div>
+    
+    <script type="text/javascript" charset="utf-8">
+      $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', {name:'dave'}).appendTo('#output');
+    </script>
+    
+  </body>
+</html>
