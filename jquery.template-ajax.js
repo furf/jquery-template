@@ -10,7 +10,7 @@ jQuery.template = function(str, obj, raw) {
 
   var replace = 'replace', split = 'split', join = 'join', source, render;
 
-  if (!jQuery.template.quickExpr.test(str) && str.indexOf('http') === 0) {
+  if (jQuery.template.httpExpr.test(str)) {
     jQuery.ajax({
       url: str,
       dataType: 'text',
@@ -113,6 +113,8 @@ jQuery.template = function(str, obj, raw) {
 // Splits leading text fragment, DOM elements, trailing text fragments
 jQuery.template.quickExpr = /^([^<]*)(<[\w\W]+>)([^>]*)$/;
 
+// Tests for Ajax templates
+jQuery.template.httpExpr = /^http\S+$/;
 
 /**
  * Parse selected elements as templates
