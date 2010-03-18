@@ -14,7 +14,6 @@ jQuery.template = function(str, obj, raw) {
    * Use cached template
    */
   if (jQuery.template.cache[str]) {
-    console.log('cache', str);
     
     fn = jQuery.template.cache[str];
 
@@ -22,7 +21,6 @@ jQuery.template = function(str, obj, raw) {
    * Load Ajax template
    */
   } else if (jQuery.template.httpExpr.test(str)) {
-    console.log('ajax', str);
     
     jQuery.ajax({
       url:      str,
@@ -37,7 +35,6 @@ jQuery.template = function(str, obj, raw) {
    * Create new template
    */
   } else {
-    console.log('create');
 
     // Convert template to JavaScript source code
     source = "var __=[];__.push('" +
