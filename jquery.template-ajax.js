@@ -6,16 +6,23 @@
  * http://ejohn.org/blog/javascript-micro-templating/
  * MIT Licensed
  */
-jQuery.template = function(str, obj, raw) {
+jQuery.template = function(cache, str, obj, raw) {
 
-  var replace = 'replace', split = 'split', join = 'join', source, render, fn;
+  var replace = 'replace', split = 'split', join = 'join', source, render, proxy;
+
+  if (typeof cache !== 'boolean') {
+    raw   = obj;
+    obj   = str;
+    str   = cache;
+    cache = true;
+  }
 
   /**
    * Use cached template
    */
   if (jQuery.template.cache[str]) {
-    
-    fn = jQuery.template.cache[str];
+
+    proxy = jQuery.template.cache[str];
 
   /**
    * Load Ajax template
@@ -27,7 +34,12 @@ jQuery.template = function(str, obj, raw) {
       dataType: 'text',
       async:    false,
       success: function (response) {
-        fn = jQuery.template.cache[str] = jQuery.template(response);
+
+        proxy = jQuery.template(false, response);
+
+        if (cache) {
+          jQuery.template.cache[str] = proxy;
+        }
       }
     });
 
@@ -56,7 +68,7 @@ jQuery.template = function(str, obj, raw) {
      * improvement (in most browsers), but requires the use of "this" keyword in
      * the templates.
      */
-    function proxy (obj, raw) {
+    proxy = function (obj, raw) {
 
       var html = render.call(obj), match, ret;
 
@@ -103,7 +115,7 @@ jQuery.template = function(str, obj, raw) {
       }
 
       return ret;
-    }
+    };
 
     /**
      * Aliased toString and toSource methods allow access to rendered template
@@ -119,12 +131,13 @@ jQuery.template = function(str, obj, raw) {
       };
     }
 
-    fn = jQuery.template.cache[str] = proxy;
-    
+    if (cache) {
+      jQuery.template.cache[str] = proxy;
+    }
   }
 
   // Return template engine or rendered HTML if an object is specified
-  return obj ? fn(obj, raw) : fn;
+  return obj ? proxy(obj, raw) : proxy;
 };
 
 jQuery.template.cache = {};

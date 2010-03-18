@@ -1,1 +1,1 @@
-Hello, <strong>{%= this.name %}</strong>!
+Hello, <strong>{%= this.name %}</strong>!<br/>
