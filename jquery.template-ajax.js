@@ -14,7 +14,7 @@
       quickExpr = /^([^<]*)(<[\w\W]+>)([^>]*)$/,
 
       // Tests for Ajax templates
-      httpExpr = /^http\S+$/;
+      tokenExpr = /\{%/;
 
 
   $.template = function(cache, str, obj, raw) {
@@ -32,13 +32,13 @@
      * Use cached template
      */
     if (templates[str]) {
-      
+
       proxy = templates[str];
 
     /**
      * Load Ajax template
      */
-    } else if (httpExpr.test(str)) {
+    } else if (!tokenExpr.test(str)) {
 
       $.ajax({
         url:      str,

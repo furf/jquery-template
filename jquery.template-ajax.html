@@ -24,9 +24,9 @@
     
     <script type="text/javascript" charset="utf-8">
 
-    var s;
-    
-    var elem = $('#output');
+    var s, tpl,
+        elem = $('#output'),
+        url = 'http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl';
     
     var dave = {
       name: 'Dave Furfero',
@@ -47,34 +47,36 @@
       ]
     };
 
-    // dave
+    // dave - create template, render later
     s = new Date();
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', dave).appendTo(elem);
+    tpl = $.template(url);
+    tpl(dave).appendTo(elem);
 
     elem.append('<p>' + (new Date() - s) + 'ms</p>');
     elem.append('<hr/>');
 
-    // henry
+    // henry - load cached template, render immediately
     s = new Date();
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', henry).appendTo(elem);
+    $.template(url, henry).appendTo(elem);
 
     elem.append('<p>' + (new Date() - s) + 'ms</p>');
     elem.append('<hr/>');
 
-    // dave & henry
+    // dave & henry - render array as jQuery
     s = new Date();
-    $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', [dave, henry]).appendTo(elem);
+    $.template(url, [dave, henry]).appendTo(elem);
 
     elem.append('<p>' + (new Date() - s) + 'ms</p>');
     elem.append('<hr/>');
     
-    // dave & henry (raw)
+    // dave & henry - render array as raw HTML
     s = new Date();
-    var html = $.template('http://assets.dev/js/jquery/plugins/template/jquery.template-ajax.tpl', [dave, henry], true);
+    var html = $.template(url, [dave, henry], true);
     elem.append(html);
 
     elem.append('<p>' + (new Date() - s) + 'ms</p>');
     elem.append('<hr/>');
+
     </script>
     
   </body>
