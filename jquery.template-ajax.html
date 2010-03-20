@@ -47,35 +47,12 @@
       ]
     };
 
-    // dave - create template, render later
-    s = new Date();
-    tpl = $.template(url);
-    tpl(dave).appendTo(elem);
+    $.template(url, dave).appendTo(elem);
 
-    elem.append('<p>' + (new Date() - s) + 'ms</p>');
     elem.append('<hr/>');
 
-    // henry - load cached template, render immediately
-    s = new Date();
-    $.template(url, henry).appendTo(elem);
-
-    elem.append('<p>' + (new Date() - s) + 'ms</p>');
-    elem.append('<hr/>');
-
-    // dave & henry - render array as jQuery
-    s = new Date();
     $.template(url, [dave, henry]).appendTo(elem);
 
-    elem.append('<p>' + (new Date() - s) + 'ms</p>');
-    elem.append('<hr/>');
-    
-    // dave & henry - render array as raw HTML
-    s = new Date();
-    var html = $.template(url, [dave, henry], true);
-    elem.append(html);
-
-    elem.append('<p>' + (new Date() - s) + 'ms</p>');
-    elem.append('<hr/>');
 
     </script>
     

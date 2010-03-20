@@ -17,7 +17,7 @@
       tokenExpr = /\{%/;
 
 
-  $.template = function(cache, str, obj, raw) {
+  $.template = function (cache, str, obj, raw) {
 
     var replace = 'replace', split = 'split', join = 'join', source, render, proxy;
 
@@ -58,12 +58,16 @@
      * Create new template
      */
     } else {
-      
+
       // Convert template to JavaScript source code
       source = "var __=[];__.push('" +
         str[replace](/[\r\t\n]/g, " ")
            [split]("{%")[join]("\t")
            [replace](/((^|%\})[^\t]*)'/g, "$1\r")
+           // escape single quotes 
+           // fixes a bug in the templating code but requires double quoting
+           // of strings in code blocks - more on this later
+           [split]("'")[join]("\\'")
            [replace](/\t=(.*?)%\}/g, "',$1,'")
            [split]("\t")[join]("');")
            [split]("%}")[join](";__.push('")
@@ -75,13 +79,24 @@
 
       /**
        * Using a proxy function helps us avoid use of the "with" keyword as in the
-       * original micro-templating code. This provides a noticeable performance 
+       * original micro-templating code. This provides a noticeable performance
        * improvement (in most browsers), but requires the use of "this" keyword in
        * the templates.
        */
       proxy = function (obj, raw) {
 
-        var html = render.call(obj), match, ret;
+        var html, match, ret;
+
+        // If object is an Array, render its members and .
+        if ($.isArray(obj)) {
+          ret = $.map(obj, function (obj) {
+            return proxy(obj, raw);
+          });
+          return raw ? ret.join('') : $(ret);
+        }
+
+        // Render object
+        html = render.call(obj);
 
         // Return rendered HTML as a string
         if (raw) {
@@ -148,20 +163,14 @@
       }
     }
 
-    /**
-     * Return template engine or rendered HTML if an object is specified. If
-     * the object is an array iterate and return concatenated string (raw) or
-     * jQuery object containing all rendered objects.
-     */     
-    return obj ? $.isArray(obj) ? raw ? $.map(obj, function (obj) {
-      return proxy(obj, raw);
-    }).join('') : $($.map(obj, proxy)) : proxy(obj, raw) : proxy;
+    // Return template engine or rendered HTML if an object is specified
+    return obj ? proxy(obj, raw) : proxy;
   };
 
   /**
    * Parse selected elements as templates
    */
-  $.fn.template = function(obj, raw) {
+  $.fn.template = function (obj, raw) {
     return $.template(this.text() || '', obj, raw);
   };
 
