@@ -54,6 +54,15 @@
     $.template(url, [dave, henry]).appendTo(elem);
 
 
+    var text = $.template(url, dave);
+    console.log(text);
+    var text = $.template(url, [dave, henry]);
+    console.log(text);
+    var text = $.template(url, dave, true);
+    console.log(text);
+    var text = $.template(url, [dave, henry], true);
+    console.log(text);
+
     </script>
     
   </body>

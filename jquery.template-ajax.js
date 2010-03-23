@@ -8,14 +8,8 @@
  */
 (function (document, $) {
 
-  var templates = {},
-
-      // Splits leading text fragment, DOM elements, trailing text fragments
-      quickExpr = /^([^<]*)(<[\w\W]+>)([^>]*)$/,
-
-      // Tests for Ajax templates
-      tokenExpr = /\{%/;
-
+  var templates = {},     // Cache for previously rendered templates
+      tokenExpr = /\{%/;  // Tests non-templates, ie. URLs
 
   $.template = function (cache, str, obj, raw) {
 
@@ -85,62 +79,13 @@
        */
       proxy = function (obj, raw) {
 
-        var html, match, ret;
+        // If object is an Array, render its members , otherwise render object
+        var html = $.isArray(obj) ? $.map(obj, function (obj) {
+          return render.call(obj);
+        }).join('') : render.call(obj);
 
-        // If object is an Array, render its members and .
-        if ($.isArray(obj)) {
-          ret = $.map(obj, function (obj) {
-            return proxy(obj, raw);
-          });
-          return raw ? ret.join('') : $(ret);
-        }
-
-        // Render object
-        html = render.call(obj);
-
-        // Return rendered HTML as a string
-        if (raw) {
-          return html;
-        }
-
-        // Return a jQuery object from the rendered HTML
-
-        /**
-         * The following block works around a jQuery limitation (as of 1.4.2)
-         * where leading/trailing text fragments are stripped from the selector
-         * when jQuery() is used to create DOM elements.
-         *
-         * $("this <em>doesn't work</em> as expected"); // <em>doesn't work</em>
-         *
-         * A ticket has been filed:
-         * http://dev.jquery.com/ticket/6303
-         *
-         * And a patch has been made:
-         * http://github.com/furf/jquery/blob/master/src/core.js
-         */
-        match = quickExpr.exec(html);
-
-        if (match) {
-
-          // Create instance from DOM elements
-          ret = $(match[2]);
-
-          // Prepend leading text
-          Array.prototype.unshift.call(ret, document.createTextNode(match[1]));
-
-          // Append trailing text
-          ret.push(document.createTextNode(match[3]));
-
-        } else {
-
-          /**
-           * If the rendered HTML contains no DOM elements, use a text node so
-           * jQuery doesn't mistake it for a selector.
-           */
-          ret = $(document.createTextNode(html));
-        }
-
-        return ret;
+        // Return rendered HTML as a string or wrapped in custom tag
+        return raw ? html : $('<jquery:template>' + html + '</jquery:template>');
       };
 
       /**
@@ -174,4 +119,4 @@
     return $.template(this.text() || '', obj, raw);
   };
 
-})(document, jQuery);
+})(this.document, this.jQuery);
