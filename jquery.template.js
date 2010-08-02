@@ -146,7 +146,6 @@
    * @todo make this function consistent among dome elements
    */
   $.fn.template = function (obj, raw) {
-    console.dir(this[0]);
     return $.template(this.text() || '', obj, raw);
   };
 
