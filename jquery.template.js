@@ -101,6 +101,9 @@
        * in the original micro-templating code. This provides a noticeable
        * performance improvement (in most browsers), but requires the use of
        * "this" keyword in the templates.
+       * It also protects against a potential danger where variables declared
+       * with the same name as a property of the data object will destroy the
+       * property of the object.
        * Example:
        * $('myTemplate.tpl', {name:'furf'});
        * myTemplate.tpl:
