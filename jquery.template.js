@@ -1,4 +1,4 @@
-/**
+/*!
  * jQuery.template
  * A micro-templating plugin for jQuery by David Furfero <http://furf.com/>
  * http://github.com/furf/jquery-template
@@ -149,10 +149,7 @@
    * @todo make this function consistent among dome elements
    */
   $.fn.template = function (obj, raw) {
-    // .html() provides more consistent results than .text()
-    // I seem to recall inconsistencies with .html() as well, but I'm not able
-    // to reproduce them at the moment
-    return $.template(this.html(), obj, raw);
+    return $.template(this[this[0].nodeName.toUpperCase() === 'TEXTAREA' ? 'val' : 'html'](), obj, raw);
   };
 
 })(this.document, this.jQuery);
