@@ -75,6 +75,9 @@
       // Convert template to JavaScript source code
       source = "var __=[];__.push('" +
         str[replace](/[\r\t\n]/g, " ")
+        
+           // remove unnecessary close and reopen (saves whitespace, fixes switch statement)
+           [split](/%\}\s*\{%/)[join]('')    
            [split]("{%")[join]("\t")
            [replace](/((^|%\})[^\t]*)'/g, "$1\r")
 
