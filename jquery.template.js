@@ -6,7 +6,7 @@
  * http://ejohn.org/blog/javascript-micro-templating/
  * MIT Licensed
  */
-(function (document, $) {
+(function ($) {
 
   var templates = {},     // Cache for previously rendered templates
       tokenExpr = /\{%/;  // Rough test for non-templates, ie. URLs
@@ -94,7 +94,7 @@
            "');return __.join('');";
 
       // Create the render function from generated source
-      render = new Function(source);
+      render = new Function('__index__', source);
 
       /**
        * Using a proxy function helps us avoid use of the "with" keyword, used
@@ -112,8 +112,8 @@
       proxy = function (obj, raw) {
 
         // If object is an Array, render its members , otherwise render object
-        var html = $.isArray(obj) ? $.map(obj, function (obj) {
-          return render.call(obj);
+        var html = $.isArray(obj) ? $.map(obj, function (obj, n) {
+          return render.call(obj, n);
         }).join('') : render.call(obj);
 
         // Return rendered HTML as a string or as jQuery instance
@@ -152,4 +152,4 @@
     return $.template(this[this[0].nodeName.toUpperCase() === 'TEXTAREA' ? 'val' : 'html'](), obj, raw);
   };
 
-})(this.document, this.jQuery);
+})(jQuery);
